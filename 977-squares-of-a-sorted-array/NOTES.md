@@ -1,5 +1,4 @@
 sort function for vector takes O(nlogn) time.
-​
 so Copying sqaures and sorting the vector is not the efficient solution.
 ​
 Optimal Solution:
