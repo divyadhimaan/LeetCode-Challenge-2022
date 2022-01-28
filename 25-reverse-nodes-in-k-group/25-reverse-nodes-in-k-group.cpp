@@ -17,7 +17,7 @@ public:
             temp=temp->next;
         }
     
-        // Step1 : Reverse first k Nodes
+        // Reverse k nodes
         ListNode* curr = head;
         ListNode* prev = NULL;
         ListNode* forward = NULL;
@@ -30,11 +30,11 @@ public:
             cnt++;
         }
 
-        // Step 2: Recursion dekhlega aage ka
+        // Apply recursion
          if(forward)
             head->next = reverseKGroup(forward,k);
 
-        // Step 3 : Return head of reversed linklist
+        // Return head of reversed linklist
         return prev;
     }
 };
