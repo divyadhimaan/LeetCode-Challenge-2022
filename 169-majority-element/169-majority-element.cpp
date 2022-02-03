@@ -8,11 +8,20 @@ public:
         }
         
         int max_occurence = 0 , ans = 0;
-        for(auto it =mp.begin();it!=mp.end(); ++it ) 
-        { 
-            if (it ->second > max_occurence) {
-                ans = it->first;
-                max_occurence = it->second;
+        // for(auto it =mp.begin();it!=mp.end(); ++it ) 
+        // { 
+        //     if (it ->second > max_occurence) 
+        //     {
+        //         ans = it->first;
+        //         max_occurence = it->second;
+        //     }
+        // }
+        for(auto x: mp)
+        {
+            if(x.second > max_occurence)
+            {
+                ans = x.first;
+                max_occurence = x.second;
             }
         }
         return ans;
