@@ -12,6 +12,7 @@ class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
         
+        //to check if the remaining list is less then k then we have to leave it unchanged.
         ListNode* temp = head;
         for(int i=0;i<k;i++)
         {
@@ -19,6 +20,8 @@ public:
                 return head;
             temp = temp->next;
         }
+        
+        //reversing the k nodes
         ListNode* curr = head;
         ListNode* forward = NULL;
         ListNode* prev = NULL;
@@ -33,6 +36,7 @@ public:
             count++;
         }
         
+        //addding recursion after k nodes
         if(head)
             head->next = reverseKGroup(forward,k);
         
