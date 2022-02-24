@@ -11,30 +11,31 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* temp=head;
-        for(int i=0;i<k;i++){
-            if(!temp)return head;
-            temp=temp->next;
+        
+        ListNode* temp = head;
+        for(int i=0;i<k;i++)
+        {
+            if(!temp)
+                return head;
+            temp = temp->next;
         }
-    
-        // Reverse k nodes
         ListNode* curr = head;
-        ListNode* prev = NULL;
         ListNode* forward = NULL;
-        int cnt=0;
-        while(curr != NULL && cnt < k){
+        ListNode* prev = NULL;
+        
+        int count = 0;
+        while(curr && count<k)
+        {
             forward = curr->next;
             curr->next = prev;
             prev = curr;
             curr = forward;
-            cnt++;
+            count++;
         }
-
-        // Apply recursion
-         if(forward)
+        
+        if(head)
             head->next = reverseKGroup(forward,k);
-
-        // Return head of reversed linklist
+        
         return prev;
     }
 };
