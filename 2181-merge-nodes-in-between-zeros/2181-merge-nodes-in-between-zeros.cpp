@@ -30,8 +30,8 @@ public:
             else
             {
                ListNode * temp = new ListNode(sum);
-                solhead ->next = temp;
-                solhead = solhead ->next;
+                soltemp ->next = temp;
+                soltemp = soltemp ->next;
                 sum = 0;  
             }
             
@@ -39,7 +39,7 @@ public:
         }
         
 		// Return solution linked lists's head -> next (since solution head's value is not needed)
-        return soltemp ->next;
+        return solhead ->next;
         
     }
 };
