@@ -21,45 +21,25 @@ public:
         ListNode* result = new ListNode(-1);
         ListNode* tail = result;
         int carry =0;
-        while(h1 && h2){
-            int sum = h1->val + h2->val + carry;
+        while(h1 || h2){
+            int x = (h1!=NULL) ? h1->val :0;            
+            int y = (h2!=NULL) ? h2->val :0;
+            int sum = x + y + carry;
             carry = sum/10;
             sum = sum%10;
-            ListNode* temp = new ListNode(sum);
-            tail->next = temp;
+            tail->next = new ListNode(sum);
             tail=tail->next;
             
-            h1=h1->next;
-            h2=h2->next;
+            if(h1)
+                h1=h1->next;
+            if(h2)
+                h2=h2->next;
         }
         
-        while(h1)
-        {
-            int sum = h1->val + carry;
-            carry = sum/10;
-            sum = sum%10;
-            ListNode* temp = new ListNode(sum);
-            tail->next = temp;
-            tail=tail->next;
-            
-            h1=h1->next;
-        }
-        while(h2)
-        {
-            int sum = h2->val + carry;
-            carry = sum/10;
-            sum = sum%10;
-            ListNode* temp = new ListNode(sum);
-            tail->next = temp;
-            tail=tail->next;
-            
-            h2=h2->next;
-        }
         
         if(carry)
         {
-            ListNode* temp = new ListNode(carry);
-            tail->next = temp;
+            tail->next = new ListNode(carry);
         }
         
         return result->next;
