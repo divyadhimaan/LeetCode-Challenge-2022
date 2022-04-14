@@ -1,5 +1,5 @@
 /* Write your PL/SQL query statement below */
-select c.name as Customers 
+select c.name as Customers
 from Customers c
 left join Orders o
 on c.Id = o.CustomerId
