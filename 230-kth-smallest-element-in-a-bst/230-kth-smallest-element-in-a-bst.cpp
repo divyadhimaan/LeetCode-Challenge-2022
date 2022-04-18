@@ -30,11 +30,5 @@ public:
     int kthSmallest(TreeNode* root, int k) {
         inOrder(root, k);
         return node->val;
-        // int n = st.size();
-        // for(int i=0;i<n-k;i++)
-        // {
-        //     st.pop();
-        // }
-        // return st.top();
     }
 };
