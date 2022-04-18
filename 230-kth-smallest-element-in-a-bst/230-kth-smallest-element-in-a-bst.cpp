@@ -11,24 +11,24 @@
  */
 class Solution {
 public:
-    void inOrder(TreeNode* root, stack<int> &st)
+    void inOrder(TreeNode* root, vector<int> &v)
     {
         if(root!=NULL)
         {
-            inOrder(root->left, st);
-            st.push(root->val);
-            inOrder(root->right, st);
+            inOrder(root->left, v);
+            v.push_back(root->val);
+            inOrder(root->right, v);
         }
     }
     int kthSmallest(TreeNode* root, int k) {
-        stack<int> st;
-        inOrder(root, st);
-        
-        int n = st.size();
-        for(int i=0;i<n-k;i++)
-        {
-            st.pop();
-        }
-        return st.top();
+        vector<int> v;
+        inOrder(root, v);
+        return v[k-1];
+        // int n = st.size();
+        // for(int i=0;i<n-k;i++)
+        // {
+        //     st.pop();
+        // }
+        // return st.top();
     }
 };
