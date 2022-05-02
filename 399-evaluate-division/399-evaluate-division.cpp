@@ -56,6 +56,7 @@ public:
         for(int i=0;i<queries.size();i++)
         {
             vector<string> query = queries[i];
+            res = 1;
             if(!visited[query[0]])
             {
                 bool temp = findPath(query[0], query[1],1);
