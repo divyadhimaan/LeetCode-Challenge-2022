@@ -7,11 +7,13 @@ class Solution {
   public:
     // Function to detect cycle in an undirected graph.
     
-    bool bfs(int s, vector<int> adj[], vector<int> &visited, int p)
+    
+    //approach: bfs -> instead of true/false store the parent node of every node
+    bool bfs(int node, vector<int> adj[], vector<int> &visited, int p)
     {
         queue<int> q;
-        q.push(s);
-        visited[s] = p;
+        q.push(node);
+        visited[node] = p;
         
         while(!q.empty())
         {
