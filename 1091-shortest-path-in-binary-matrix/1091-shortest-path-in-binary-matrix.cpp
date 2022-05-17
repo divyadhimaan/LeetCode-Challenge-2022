@@ -1,53 +1,52 @@
 class Solution {
 public:
+    int dx[8] = {1,0,-1,0,1,-1,-1,1};
+    int dy[8] = {0,1,0,-1,1,1,-1,-1};
     
-    bool isValid(vector<vector<int>>& grid, int i, int j, int n, vector<vector<bool>>& visited){
-        
-        return (i>=0 and i<n and j>=0 and j<n and grid[i][j]==0 and !visited[i][j]);
-        
+    bool isValid(int index,int lim){
+        if(index>=0 && index<lim){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         
+        
+        if(grid[0][0]==1){
+            return -1;
+        }
         int n = grid.size();
-        vector<vector<bool>> visited(n, vector<bool> (n, false));
-        queue<pair<int, int>> q;
-        int ans = 0;
-        int nodesPushed;
+        vector<vector<int>> dist(n,vector<int>(n,0));
+        queue<pair<int,int>> q;
+        q.push({0,0});
+        dist[0][0] = 1;
+        grid[0][0] = 1;
+    
         
-        if(grid[0][0] == 0){
-            q.push({0, 0});
-            visited[0][0] = true;
-        }
-                
         while(!q.empty()){
-            
-            nodesPushed = q.size();
-            ans++;
-            
-            for(int cnt = 0; cnt < nodesPushed; cnt++){
-                
-                pair<int, int> frontNode = q.front();
-                q.pop();
-            
-                int i = frontNode.first, j = frontNode.second;
-
-                if(i==n-1 and j==n-1) return ans;
-
-                for(int k = i - 1; k <= i + 1 ; k++){
-                    for(int l = j - 1; l <= j + 1; l++){
-                        if(isValid(grid, k, l, n, visited)){
-                            q.push({k, l});
-                            visited[k][l] = true;
-                        }
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            if(x==n-1 && y==n-1){
+                return dist[x][y];
+            }
+             for(int k=0;k<8;k++){
+                int i = x+dx[k];
+                int j = y+dy[k];
+                if(isValid(i,n) && isValid(j,n)){
+                    if(grid[i][j]==0){
+                        dist[i][j] = dist[x][y] + 1;
+                        grid[i][j] = 1;
+                        q.push({i,j});
                     }
-                }                
-                
-            }            
-            
+                    
+                }
+            }
         }
-        
         return -1;
+       
         
     }
 };
