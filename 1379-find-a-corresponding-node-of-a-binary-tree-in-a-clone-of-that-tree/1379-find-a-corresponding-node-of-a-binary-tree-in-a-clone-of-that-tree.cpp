@@ -10,26 +10,25 @@
 
 class Solution {
 public:
-    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
-        
-        queue<TreeNode*> q;
-        q.push(cloned);
-        while(!q.empty())
+    TreeNode* value;
+    void inorder(TreeNode* cloned, TreeNode* target)
+    {
+        if(cloned==NULL)
+           return;
+           
+        inorder(cloned->left,target);      
+        if(cloned->val == target->val)
         {
-            TreeNode* curr = q.front();
-            q.pop();
-            
-            if(curr->val == target->val)
-                return curr;
-            
-            if(curr->left)
-                q.push(curr->left);
-            
-            if(curr->right)
-                q.push(curr->right);
-                
-                
+            value = cloned;
+            return;
         }
-        return NULL;
+        inorder(cloned->right,target);
+
+        
+    }
+    
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        inorder(cloned,target);
+        return value;
     }
 };
