@@ -18,13 +18,14 @@ public:
         if(!head)
             return NULL;
         
-        while(p!=NULL)
+        while(p)
         {
             r = q;
             q = p;
-            p = p->next;
-            q->next = r;
+            p=p->next;
+            q->next =r;
         }
+        
         return q;
     }
 };
