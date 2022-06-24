@@ -11,45 +11,52 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode *h1 = list1;
-        ListNode *h2 = list2;
-        ListNode *h3 = NULL;
-        ListNode *tail = NULL;
+        ListNode* head;
+        ListNode* tail;
         
-        if(!h1)
-            return h2;
-        if(!h2)
-            return h1;
+        ListNode* p = list1;
+        ListNode* q = list2;
         
-        if(h1->val <= h2->val)
+        if(!p && !q)
+            return NULL;
+        
+        if(!p)
+            return q;
+        if(!q)
+            return p;
+        
+        if(p->val < q->val)
         {
-            h3 = h1;
-            tail = h3;
-            h1 = h1->next;
-        } else{
-            h3 = h2;
-            tail = h3;
-            h2 = h2->next;
+            head = p;
+            tail = head;
+            p = p->next;
+        }else{
+            head = q;
+            tail = head;
+            q = q->next;
         }
         
-        while(h1 && h2)
+        while(p && q)
         {
-            if(h1->val <= h2->val)
-            {
-                tail->next = h1;
-                tail = h1;
-                h1 = h1->next;
-            } else{
-                tail->next = h2;
-                tail = h2;
-                h2 = h2->next;
+            if(p->val < q->val){
+                tail->next = p;
+                tail = tail->next;
+                p = p->next;
+            }else {
+                tail->next = q;
+                tail =  tail->next;
+                q = q->next;
             }
         }
-        if(h1)
-            tail->next = h1;
-        if(h2)
-            tail->next = h2;
         
-        return h3;
+        if(p){
+            tail->next = p;
+        }
+        if(q){
+            tail->next = q;
+        }
+        
+        return head;
+        
     }
 };
