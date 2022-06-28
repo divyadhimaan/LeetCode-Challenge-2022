@@ -8,60 +8,53 @@
  */
 class Solution {
 public:
-    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int cA=1,cB=1;
-        if(headA==NULL  || headB==NULL)
-            return NULL;
-
-        ListNode *p=headA;
-        ListNode *q=headB;
-
-
-        while(p->next!=NULL)
+    
+    int countNodes(ListNode *head)
+    {
+        if(!head)
+            return 0;
+        
+        int count=0;
+        while(head)
         {
-            cA++;
-            p=p->next;
+            count++;
+            head=head->next;
+        }
+        return count;
+    }
+    
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        
+        ListNode* p = headA;
+        ListNode* q = headB;
+        
+        if(!p || !q)
+            return NULL;
+        
+        int c1 = countNodes(p);
+        int c2 = countNodes(q);
+        
+        p = headA;
+        q = headB;
+        
+        int d = abs(c1-c2);
+        if(c1>c2)
+        {
+            while(d--)
+                p=p->next;
+        }else{
+            while(d--)
+                q = q->next;
         }
         
-        while(q->next!=NULL)
+        while(p && q && p!=q)
         {
-            cB++;
-            q=q->next;
-        }
-
-        int d = abs(cA-cB);
-        p=headA;
-        q=headB;
-        //move larger list 
-        if(cA>cB)
-        {
-            for(int i=0;i<d;i++)
-            {
-                if(p->next==NULL)
-                    return NULL;
-                p=p->next;
-            }
-        }
-        else
-        {
-            for(int i=0;i<d;i++)
-            {
-                if(q->next==NULL)
-                    return NULL;
-                q=q->next;
-            }
-        }
-
-        //now both list have equal nodes left;
-        while(p!=NULL || q!=NULL)
-        {
-            if(p==q)
-            return p;
             p=p->next;
             q=q->next;
-
         }
-
+        if(p==q)
+            return q;
+        
         return NULL;
     }
 };
