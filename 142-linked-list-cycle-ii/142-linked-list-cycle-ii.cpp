@@ -12,27 +12,27 @@ public:
         if(!head || !head->next)
             return NULL;
         
-        ListNode *fast = head;
-        ListNode *slow = head;
+        ListNode* slow = head;
+        ListNode* fast = head;
         
-        while(slow && fast && fast->next)
-        {
-            slow = slow->next;
-            fast = fast->next->next;
-            if(slow==fast)
-                break;
-        }
+        // detect the loop
+        do{
+            slow=slow->next;
+            fast=fast->next;
+            fast=(fast!=NULL)?fast->next:NULL;
+        }while(fast && slow && slow!=fast);
+        
         if(slow!=fast)
             return NULL;
         
-        //if loop exists start slow from head and fast from meeting point
-        slow = head;
-        while (slow != fast) 
+        
+        fast = head;
+        while(slow!=fast)
         {
-            slow = slow->next;
-            fast = fast->next;
+            fast=fast->next;
+            slow=slow->next;
         }
-
         return slow;
+        
     }
 };
