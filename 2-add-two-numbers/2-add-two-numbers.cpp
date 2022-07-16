@@ -16,34 +16,30 @@ public:
         if(!l2)
             return l1;
         
-        ListNode* h1 = l1;
-        ListNode* h2 = l2;
-        ListNode* l3 = new ListNode(-1);
-        ListNode* curr = l3;
-        
-        int carry=0;
-        while(h1 || h2)
+        int carry = 0;
+        ListNode* head = new ListNode(-1);
+        ListNode* curr = head;
+        while(l1 || l2)
         {
-            int x = (h1!=NULL) ? h1->val : 0;
-            int y = (h2!=NULL) ? h2->val : 0;
-            
-            int sum = x + y + carry;
-            carry = sum/10;
-            
-            curr->next = new ListNode(sum%10);
-            curr = curr->next;
-            
-            if(h1)
-                h1 = h1->next;
-            if(h2)
-                h2 = h2->next;
+            int x1 = (l1!=NULL)?l1->val:0;            
+            int x2 = (l2!=NULL)?l2->val:0;
+
+            int sum = carry + x1 + x2;
+            carry = (sum/10);
+            // cout<<sum<<" "<<carry<<endl;
+            ListNode* temp = new ListNode(sum%10);
+            curr->next = temp;
+            curr = temp;
+            l1=(l1!=NULL)?l1->next:NULL;           
+            l2=(l2!=NULL)?l2->next:NULL;     
+        }
+        if(carry)
+        {
+            ListNode* temp = new ListNode(carry);
+            curr->next = temp;
+            curr = temp;
         }
         
-        if(carry > 0)
-            curr->next = new ListNode(carry);
-            
-        
-        return l3->next;
+        return head->next;
     }
-    
 };
