@@ -11,7 +11,6 @@ public:
             res *= (n - i);
             res /= (i + 1);
         }
-
         return res;
     }
 
