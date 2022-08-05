@@ -1,25 +1,43 @@
 class Solution {
 public:
-    int i = 0;
-    
     int calculate(string s) {
-        vector<int> stk;
-        char sign = '+';
-        int num = 0;
-        while(i < s.size()){
-            char ch = s[i++];   
-            if(isdigit(ch)){
-                num = num * 10 + (ch - '0');
+        int sum=0; 
+        int sign=1;
+        stack<int> st;
+        for(int i=0;i<s.size();i++){
+            
+            if(isdigit(s[i]))
+            {
+                int val=0;
+                while(i<s.size()&&isdigit(s[i]))
+                {
+                    val=val*10+(s[i]-'0');
+                    i++;
+                }
+                i--;
+                val=val*sign;
+                sign=1;
+                sum+=val;
             }
-            if(ch == '(')  num = calculate(s);
-            if(i >= s.size() || ch == '+' || ch == '-' || ch == ')'){
-                if(sign == '+')  stk.push_back(num);
-                else stk.push_back(-num);
-                sign = ch;
-                num = 0;
+            
+            else if(s[i]=='('){
+                st.push(sum);
+                st.push(sign);
+                sum=0;
+                sign=+1;
             }
-            if(ch == ')')  break;
+            
+            else if(s[i]==')'){
+                sum*=st.top();
+                st.pop();
+                sum+=st.top();
+                st.pop();
+            }
+            
+            else if(s[i]=='-'){
+                sign*=-1;
+            }
         }
-        return accumulate(stk.begin(), stk.end(), 0);
+        return sum;
     }
 };
