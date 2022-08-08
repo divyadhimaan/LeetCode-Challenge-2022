@@ -2,8 +2,10 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int> lis(n, INT_MIN);
-        lis[0]=1;
+        
+        vector<int> lis(n);
+        
+        lis[0] = 1;
         
         for(int i=1;i<n;i++)
         {
@@ -13,8 +15,8 @@ public:
                 if(nums[i]>nums[j])
                     lis[i] = max(lis[i], lis[j]+1);
             }
-                
         }
+        
         return *max_element(lis.begin(), lis.end());
     }
 };
