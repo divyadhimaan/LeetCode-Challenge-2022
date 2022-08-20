@@ -1,36 +1,33 @@
 class Solution {
 public:
-    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+    int furthestBuilding(vector<int>& h, int bricks, int ladders) {
         
-        // Priority Queue for storing the bricks used in each step in decreasing order (Max at top)
-        priority_queue<int> maxB;
-    
-        int i=0, diff =0; // i is used for storing the position and diff for storing difference.
-        for(i=0; i<heights.size()-1; i++){ // go till before the last building.
+        int n = h.size();
+        priority_queue<int> pq;
+        int i;
+        for(i=1;i<n;i++){
             
-            //difference of the height of corresponding buildings
-            diff = heights[i+1]-heights[i];
+            int diff = h[i]-h[i-1];
             
-            //If next building is equal or samaller than current then go to next building.
-            if(diff <= 0){
+            if(diff<=0){
                 continue;
             }
-
-            bricks -= diff; //taking the bricks needed for going to next building.
-            maxB.push(diff); //adding the number of bricks used in priority queue.
             
-            // if bricks become negetive then there were not enough bricks. So add a ladder in place of the step where most bricks were used.
-            if(bricks < 0){
-                bricks += maxB.top(); //taking back bricks from that step
-                maxB.pop(); //As max bricks were removed so pop
-                ladders--; //1 ladder used
+            bricks -= diff;
+            pq.push(diff);
+            
+            if(bricks<0){
+                bricks += pq.top();
+                pq.pop();
+                ladders--;
             }
-
-            //if ladder is negetive then the ladder was not provided to go to next building. So we can't proceed.
-            if(ladders < 0) break;
+            
+            if(ladders<0){
+                break;
+            }
+            
         }
+        return i-1;
         
-        // return the present position.
-        return i;
     }
 };
