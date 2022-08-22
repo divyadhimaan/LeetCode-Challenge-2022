@@ -1,29 +1,30 @@
-Brute Force:
-​
-Simply We have two ways:
-*   Single Digit - numbers (1 - 9) but not 0
-*   Two Digits
-*   Starts with 1 and has (0-9)
-*   starts with 2 and has (0-6)
-​
-```
-Input: s = "12"
-Output: 2
-​
-Input: s = "226"
-Output: 3
-​
-Input: s = "121"
-Output: 3
-​
-Input: s = "266"
-Output: 2
-​
-Input: s = "06"
-Output: 0
-​
+return 1;
+int count=0;
+if(s[i] != '0')
+count += ways(s,i+1);
+if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] <='6')))
+count += ways(s,i+2);
+return count;
+}
+int numDecodings(string s) {
+return ways(s,0);
+}
+};
 ```
 ​
-![Photo](https://drive.google.com/drive/u/5/folders/1i-Hkw9E2TX_-vdz9oEjbiiGCR-5FGT49)
 ​
+DP Memoization (Top Down Approach)
 ​
+```
+class Solution {
+public:
+int ways(string s, int i, vector<int> &memo)
+{
+if(i==s.length())
+return 1;
+if(memo[i] != -1)
+return memo[i];
+int count=0;
+if(s[i] != '0')
+count += ways(s,i+1,memo);
+if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] <='6')))
