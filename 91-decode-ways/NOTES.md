@@ -1,30 +1,29 @@
-return 1;
-int count=0;
-if(s[i] != '0')
-count += ways(s,i+1);
-if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] <='6')))
-count += ways(s,i+2);
-return count;
-}
-int numDecodings(string s) {
-return ways(s,0);
-}
-};
-```
-​
-​
-DP Memoization (Top Down Approach)
+* for single digit dp[i] = dp[i+1]
+* for two digits dp[i] = dp[i+2]
+* return dp[0]
 ​
 ```
 class Solution {
 public:
-int ways(string s, int i, vector<int> &memo)
+int numDecodings(string s) {
+int n = s.length();
+vector<int> dp(n+1, 0);
+​
+dp[n] = 1;
+for(int i=n-1;i>=0;i--)
 {
-if(i==s.length())
-return 1;
-if(memo[i] != -1)
-return memo[i];
-int count=0;
 if(s[i] != '0')
-count += ways(s,i+1,memo);
+dp[i] += dp[i+1];
 if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] <='6')))
+dp[i] += dp[i+2];
+}
+return dp[0];
+}
+};
+​
+```
+​
+Time Complexity: O(n)
+Space Complexity: O(n)
+​
+​
