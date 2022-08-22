@@ -1,26 +1,22 @@
 class Solution {
 public:
-    // int memo[]
-    int ways(string s, int i, vector<int> &memo)
-    {
-        if(i==s.length())
-            return 1;
-        
-        if(memo[i] != -1)
-            return memo[i];
-        
-        int count=0;
-        if(s[i] != '0')
-            count += ways(s,i+1,memo);
-        
-        if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] <='6')))
-            count += ways(s,i+2,memo);
-        
-        return memo[i] = count;
-    }
     
     int numDecodings(string s) {
-        vector<int> memo(s.length(), -1);
-        return ways(s,0, memo);
+        
+        int n = s.length();
+        vector<int> dp(n+1, 0);
+
+        dp[n] = 1;
+        
+        for(int i=n-1;i>=0;i--)
+        {
+            if(s[i] != '0')
+                dp[i] += dp[i+1];
+        
+            if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] <='6')))
+                dp[i] += dp[i+2];
+        }
+        
+        return dp[0];
     }
 };
