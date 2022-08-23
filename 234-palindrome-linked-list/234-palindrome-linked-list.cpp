@@ -17,48 +17,48 @@ public:
         ListNode* q = NULL;
         ListNode* r;
         
-        if(!head)
-            return NULL;
-        
         while(p)
         {
-            r = q;
-            q = p;
-            p = p->next;
-            q -> next = r;
+            r=q;
+            q=p;
+            p=p->next;
+            q->next = r;
         }
-        
         return q;
     }
     
+    int count(ListNode* A)
+    {
+        int c = 0;
+        while(A)
+        {
+            c++;
+            A=A->next;
+        }
+        return c;
+    }
     
     bool isPalindrome(ListNode* head) {
-        if(!head || !head->next)
-            return true;
+        int len = count(head);
         
-        ListNode* slow = head;
-        ListNode* fast = head;
+        ListNode* head2 = head;
         
-        // Find the Middle of LL 
-        while(fast->next && fast->next->next){
-            slow=slow->next;
-            fast=fast->next->next;
-        }   
-    
-        // reverse the 2nd half
-        slow->next = reverse(slow->next);
-    
-        slow = slow->next;
-    
-        // compare both halves
-        fast = head;
-        while(slow)
+        int k=0;
+        while(k<len/2)
         {
-            if(fast->val != slow->val)
+            head2=head2->next;
+            k++;
+        }
+        
+        head2 = reverse(head2);
+        
+        while(head && head2)
+        {
+            if(head->val != head2->val)
                 return false;
             
-            fast=fast->next;
-            slow=slow->next;
+            head=head->next;
+            head2=head2->next;
         }
         return true;
     }
