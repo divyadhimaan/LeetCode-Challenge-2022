@@ -11,55 +11,26 @@
 class Solution {
 public:
     
-    ListNode* reverse(ListNode* head)
-    {
-        ListNode* p = head;
-        ListNode* q = NULL;
-        ListNode* r;
-        
-        while(p)
-        {
-            r=q;
-            q=p;
-            p=p->next;
-            q->next = r;
-        }
-        return q;
-    }
-    
-    int count(ListNode* A)
-    {
-        int c = 0;
-        while(A)
-        {
-            c++;
-            A=A->next;
-        }
-        return c;
-    }
-    
     bool isPalindrome(ListNode* head) {
-        int len = count(head);
-        
-        ListNode* head2 = head;
-        
-        int k=0;
-        while(k<len/2)
+        ListNode* slow= head;
+
+        stack <int> s;
+        while(slow != NULL)
         {
-            head2=head2->next;
-            k++;
+            s.push(slow->val);
+            slow = slow->next;
         }
-        
-        head2 = reverse(head2);
-        
-        while(head && head2)
+        while(head != NULL )
         {
-            if(head->val != head2->val)
+             int i=s.top();
+             s.pop();
+            if(head -> val != i){
                 return false;
-            
-            head=head->next;
-            head2=head2->next;
+            }
+ 
+           head=head->next;
         }
+ 
         return true;
     }
 };
