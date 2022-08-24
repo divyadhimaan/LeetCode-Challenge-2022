@@ -2,11 +2,11 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> res;
-        dfs(nums, 0, res);
+        rec(nums, 0, res);
         return res;
     }
     
-    void dfs(vector<int>& nums, int pos, vector<vector<int>> &res)
+    void rec(vector<int>& nums, int pos, vector<vector<int>> &res)
     {
         if(pos >= nums.size())
         {
@@ -17,7 +17,7 @@ public:
         for(int i=pos;i<nums.size();i++)
         {
             swap(nums[pos], nums[i]);
-            dfs(nums, pos+1, res);
+            rec(nums, pos+1, res);
             swap(nums[pos], nums[i]);
         }
     }
