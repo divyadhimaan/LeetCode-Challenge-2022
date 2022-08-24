@@ -1,43 +1,36 @@
 class Solution {
 public:
+    
     bool checkInclusion(string s1, string s2) {
-        if(s1.size()>s2.size())
+        if(s2.size() < s1.size())
             return false;
-        int n=s2.size();
-    unordered_map<char,int>mp;
-        for(int i=0;i<s1.size();i++)
-        {
-            mp[s1[i]]++;
-        }
-        int  count=mp.size(),i=0,j=0;
-        int window_size=s1.size();
-        while(j<n)
-        {
-            if(mp.find(s2[j])!=mp.end())
-            {
-                mp[s2[j]]--;
-                if(mp[s2[j]]==0)
-                    count--;
+        
+        vector<int> v1(26,0);
+        vector<int> v2(26,0);
+        
+        for(auto i: s1)
+            v1[i - 'a']++;
+        
+        int start=0, end= 0;
+        while(end < s2.size()){
+            v2[s2[end] - 'a']++;
+            
+            if(end - start + 1 == s1.size()){
+                if(v1==v2)
+                    return true;
             }
             
-            if(j-i+1<window_size)
-                j++;
-            else if(j-i+1==window_size)
+            if(end - start + 1 < s1.size())
             {
-                if(count==0)
-                {
-                    return true;
-                }
-                if(mp.find(s2[i])!=mp.end())
-                {
-                    mp[s2[i]]++;
-                    if(mp[s2[i]]==1)
-                        count++;
-                }
-                i++;
-                j++;
+                end++;
+            }else{
+                v2[s2[start] - 'a']--;
+                start++;
+                end++;
             }
         }
+        
         return false;
     }
 };
+
