@@ -1,49 +1,28 @@
 class Solution {
 public:
-    int mod = 1e9 + 7;
-    int solveCost(vector<int> &cuts, int i, int j, vector<vector<int>> &memo)
+    
+    int solve(int n, vector<int> &cuts, int start, int end, int index, int size, vector<vector<int>> &memo)
     {
-        if(i>j)
+        if(index>size)
             return 0;
         
-        if(memo[i][j] != -1)
-            return memo[i][j];
-        
-        int miniCost = INT_MAX;
-        for(int idx = i; idx<=j; idx++)
+        if(memo[index][size] != -1)
+            return memo[index][size];
+        int currCost = end - start;
+        int ans = INT_MAX;
+        for(int i=index;i<=size;i++)
         {
-            int cost = (cuts[j+1] - cuts[i-1]) + solveCost(cuts, i, idx-1, memo) + solveCost(cuts, idx+1, j, memo);
-            miniCost = min(miniCost, cost);
+            int cost = currCost + solve(n, cuts, start,cuts[i], index, i-1, memo) + solve(n, cuts, cuts[i],end, i+1, size, memo);
+            ans = min(ans, cost);
         }
-        return memo[i][j] = miniCost;
+        return memo[index][size] = ans;
     }
-    
     int minCost(int n, vector<int>& cuts) {
-        int c = cuts.size();
-        
-        cuts.push_back(n);
-        cuts.insert(cuts.begin(), 0);
-        
         sort(cuts.begin(), cuts.end());
-        
-        vector<vector<int>> dp(c+2, vector<int>(c+2, 0));
-        
-        for(int i=c;i>=1;i--)
-        {
-            for(int j= 1; j<=c;j++)
-            {
-                if(i>j)
-                    continue;
-                int miniCost = INT_MAX;
-                for(int idx = i; idx<=j; idx++)
-                {
-                    int cost = (cuts[j+1] - cuts[i-1]) + dp[i][idx-1]+ dp[idx+1][j];
-                    miniCost = min(miniCost, cost);
-                }
-                dp[i][j] = miniCost;
-            }
-        }
-        
-        return dp[1][c];
+        vector<vector<int>> memo(cuts.size()+1, vector<int> (cuts.size()+1, -1));
+        return solve(n, cuts, 0, n, 0, cuts.size()-1, memo);
     }
 };
+//  i
+//  s i           e
+//  0 1 3 4 5 7
