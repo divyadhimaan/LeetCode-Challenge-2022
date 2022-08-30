@@ -1,65 +1,60 @@
 class Solution {
 public:
     
-    bool isSafe(vector<vector<int>>& grid, vector<vector<bool>> &vis, int i, int j)
+    bool isValid(vector<vector<int>>& grid, int i, int j, vector<vector<bool>> &vis)
     {
-        if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || vis[i][j] || grid[i][j]==0)
+        if(i<0 || i>= grid.size() || j<0 || j>=grid[0].size() || vis[i][j] || grid[i][j]==0)
             return false;
-        
         return true;
     }
     
-    void DFS(vector<vector<int>>& grid, vector<vector<bool>> &vis, int i, int j)
+    void dfs(vector<vector<int>>& grid, int i, int j, vector<vector<bool>> &vis)
     {
         
         vis[i][j] = true;
         
-        if(isSafe(grid, vis, i-1, j))
-        {
+        if(isValid(grid, i+1, j, vis)){
             count++;
-            DFS(grid, vis, i-1, j);
+            dfs(grid, i+1, j, vis);
         }
         
-        if(isSafe(grid, vis, i+1, j))
-        {
+        if(isValid(grid, i-1, j, vis)){
             count++;
-            DFS(grid, vis, i+1, j);
+            dfs(grid, i-1, j, vis);
         }
         
-        if(isSafe(grid, vis, i, j-1))
-        {
+        if(isValid(grid, i, j+1, vis)){
             count++;
-            DFS(grid, vis, i, j-1);
+            dfs(grid, i, j+1, vis);
         }
         
-        if(isSafe(grid, vis, i, j+1))
-        {
+        if(isValid(grid, i, j-1, vis)){
             count++;
-            DFS(grid, vis, i, j+1);
+            dfs(grid, i, j-1, vis);
         }
-
+        
     }
     
     int count;
     int maxAreaOfIsland(vector<vector<int>>& grid) {
+        vector<vector<bool>> vis(grid.size(), vector<bool> (grid[0].size(),false));
+        int max_area = INT_MIN;
         
-        int maxx = 0;
-        
-        vector<vector<bool>> vis(grid.size(), vector<bool>(grid[0].size(), false));
         
         for(int i=0;i<grid.size();i++)
         {
             for(int j=0;j<grid[0].size();j++)
             {
-                if(!vis[i][j] && grid[i][j]==1)
+                if(grid[i][j]==1 && !vis[i][j])
                 {
                     count = 1;
-                    DFS(grid, vis, i, j);
-                    maxx = max(maxx, count);
+                    dfs(grid, i, j, vis);
+                    max_area = max(max_area, count);
                 }
-                
             }
         }
-        return maxx;
+        if(max_area == INT_MIN)
+            return 0;
+        return max_area;
     }
 };
