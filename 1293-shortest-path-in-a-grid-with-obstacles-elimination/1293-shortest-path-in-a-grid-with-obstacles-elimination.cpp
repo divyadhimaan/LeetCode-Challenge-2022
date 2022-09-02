@@ -9,16 +9,17 @@ public:
     }
     
     vector<pair<int,int>> d = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+    
     int shortestPath(vector<vector<int>>& grid, int k) {
-        
         int row = grid.size();
         int col = grid[0].size();
-        queue<vector<int>> q;
         
-        // row-col-curr_steps-k 
-        q.push({0,0,0, k});
-            
-        vector<vector<int>> vis(row, vector<int>(col, -1));
+        // row-col-steps-k
+        queue<vector<int>> q;
+        q.push({0,0,0,k});
+        
+        // vis vector will store the k value
+        vector<vector<int>> vis(row, vector<int>(col,-1));
         
         while(!q.empty())
         {
@@ -30,29 +31,24 @@ public:
             int s = t[2];
             int nk = t[3];
             
-            // reached end
             if(x==row-1 && y==col-1)
                 return s;
             
-            // obstacle found - if we have enough k we will use it
-            if(grid[x][y]==1)
-                if(nk > 0)
+            if(grid[x][y] == 1){
+                if(nk>0)
                     nk--;
                 else
                     continue;
-             
-            // If we already came to this state with More number of K - better option - we will discard the curr state
-            if(vis[x][y] != -1 && vis[x][y] >= nk)
-            {
-                continue;
             }
+            if(vis[x][y] != -1 && vis[x][y] >= nk)
+                continue;
             vis[x][y] = nk;
-            
             
             for(auto it: d)
             {
                 int nx = x + it.first;
                 int ny = y + it.second;
+                
                 if(isValid(grid, nx, ny))
                     q.push({nx,ny,s+1, nk});
             }
