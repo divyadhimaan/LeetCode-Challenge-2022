@@ -11,31 +11,24 @@
  */
 class Solution {
 public:
-    
-    int findLength(TreeNode* root, int &ans)
+    int ans=0;
+    int solve(TreeNode* root, int par)
     {
         if(!root)
             return 0;
         
-        int l = findLength(root->left, ans);
-        int r = findLength(root->right, ans);
-    
-        int ll = 0;
-        int rl = 0;
-        if(root->left && root->left->val == root->val)
-            ll += l + 1;
-        if(root->right && root->right->val == root->val)
-            rl += r + 1;
+        int l = solve(root->left, root->val);
+        int r = solve(root->right, root->val);
         
-        ans =  max(ans, rl + ll);
+        ans = max(ans, l+r);
         
-        return max(rl,ll);
-        
+        if(root->val == par)
+            return max(l,r) + 1;
+        return 0;
     }
     
     int longestUnivaluePath(TreeNode* root) {
-        int ans=0;
-        findLength(root, ans);
+        solve(root, INT_MIN);
         return ans;
     }
 };
