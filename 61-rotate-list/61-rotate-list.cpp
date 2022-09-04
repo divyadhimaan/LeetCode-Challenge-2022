@@ -10,40 +10,43 @@
  */
 class Solution {
 public:
+    int count(ListNode* head)
+    {
+            int count =0;
+        while(head)
+        {
+                count++;
+            head = head->next;
+        }
+        return count;
+    }
     
     ListNode* rotateRight(ListNode* head, int k) {
-        if(!head)
-            return NULL;
-        if(k==0)
+        
+        int size = count(head);
+        if(size==0 || size==k || k==0)
             return head;
         
+        // If moves are more than the number of nodes
+        if(k>size)
+            k = k%size;
+        
+        int moves = size - k - 1;
+        
         ListNode* p = head;
-        
-        int c=0;
-        while(p)
+        ListNode* q = NULL;
+        while(moves--)
         {
-            c++;
-            p=p->next;
+            p =p->next;
         }
-        
-        k=k%c;
-        
-        p=head;
-        
+        q = p;
         while(p->next)
         {
-            p = p->next;
-        }
-        p->next = head;
-        
-        p = head;
-        for(int i=0;i<(c-k-1);i++)
-        {
             p=p->next;
         }
-        
-        head = p->next;
-        p->next = NULL;
+        p->next = head;
+        head=q->next;
+        q->next = NULL;
         
         return head;
     }
