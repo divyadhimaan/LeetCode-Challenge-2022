@@ -27,7 +27,6 @@ public:
         {
             if(nums[i]>tail[len-1])
             {
-                // cout<<"match "<<nums[i]<<endl;
                 tail[len++] = nums[i];
             }else {
                 int idx = ceilIdx(tail, 0, len-1, nums[i]);
