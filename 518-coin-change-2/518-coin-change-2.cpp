@@ -1,26 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
-    int coinChange(vector<int> &coins, int n, int amount)
+    
+    int coinCh(vector<int> &coins, int n, int amount, vector<vector<int>> &memo)
     {
-        if(amount == 0)
-            dp[amount][n] = 1;
-        if(n == 0)
-            dp[amount][n] = 0;
+        if(amount==0)
+            return 1;
+        if(n==0)
+            return 0;
         
-        if(dp[amount][n] != -1)
-            return dp[amount][n];
+        if(memo[amount][n-1]!=-1)
+            return memo[amount][n-1];
         
-        dp[amount][n] = coinChange(coins, n-1, amount);
+        int res = coinCh(coins, n-1, amount, memo);
+        if(coins[n-1] <= amount)
+            res += coinCh(coins, n, amount- coins[n-1], memo);
         
-        if(coins[n - 1] <= amount)
-            dp[amount][n] += coinChange(coins, n, amount - coins[n - 1]);
-            
-        return dp[amount][n];
+        return memo[amount][n-1] = res;
     }
     
     int change(int amount, vector<int>& coins) {
-        dp.resize(amount+1, vector<int>(coins.size() +1, -1));
-        return coinChange(coins, coins.size(), amount);
+        int n = coins.size();
+        vector<vector<int>> memo(amount+1,vector<int>(n+1, -1));
+        
+        return coinCh(coins, n, amount, memo);
     }
 };
