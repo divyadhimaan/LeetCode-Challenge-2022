@@ -19,7 +19,16 @@ public:
     }
     
     int rob(vector<int>& nums) {
-        vector<int> memo(nums.size(), -1);
-        return solve(nums, nums.size()-1, memo);
+        vector<int> dp(nums.size()+1, 0);
+        
+        dp[0]=0;
+        dp[1] = nums[0];
+        
+        for(int i=1;i<nums.size();i++)
+        {
+            dp[i+1] = max(nums[i]+ dp[i-1], dp[i]);
+        }
+        
+        return dp[nums.size()];
     }
 };
