@@ -1,33 +1,52 @@
 class Solution {
 public:
-    
-    int solve(vector<int> &cuts, int index, int size, vector<vector<int>> &memo)
+    int mod = 1e9 + 7;
+    int solveCost(vector<int> &cuts, int i, int j, vector<vector<int>> &memo)
     {
-        if(index>size)
+        if(i>j)
             return 0;
         
-        if(memo[index][size] != -1)
-            return memo[index][size];
+        if(memo[i][j] != -1)
+            return memo[i][j];
         
-        int ans = INT_MAX;
-        for(int i=index;i<=size;i++)
+        int miniCost = INT_MAX;
+        for(int idx = i; idx<=j; idx++)
         {
-            int currCost = cuts[size+1] - cuts[index-1];
-            int cost = currCost + solve(cuts, index, i-1, memo) + solve(cuts, i+1, size, memo);
-            ans = min(ans, cost);
+            int cost = (cuts[j+1] - cuts[i-1]) + solveCost(cuts, i, idx-1, memo) + solveCost(cuts, idx+1, j, memo);
+            miniCost = min(miniCost, cost);
         }
-        return memo[index][size] = ans;
+        return memo[i][j] = miniCost;
     }
+    
     int minCost(int n, vector<int>& cuts) {
         int c = cuts.size();
         cuts.push_back(n);
         cuts.insert(cuts.begin(), 0);
+        
         sort(cuts.begin(), cuts.end());
         
-        vector<vector<int>> memo(c+2, vector<int> (c+2, -1));
-        return solve(cuts, 1, cuts.size()-2, memo);
+        vector<vector<int>> dp(c+2, vector<int>(c+2, 0));
+        
+        for(int i=c;i>=1;i--)
+        {
+            for(int j=1;j<=c;j++)
+            {
+                if(i>j)
+                    continue;
+                else
+                {
+                    int miniCost = INT_MAX;
+                    for(int idx = i; idx<=j; idx++)
+                    {
+                        int cost = (cuts[j+1] - cuts[i-1]) + dp[i][idx-1]+ dp[idx+1][j];
+                        miniCost = min(miniCost, cost);
+                    }
+                    dp[i][j] = miniCost;
+                }
+            }
+        }
+        
+        
+        return dp[1][c];
     }
 };
-//  i
-//  s i       e
-//  0 1 3 4 5 7
