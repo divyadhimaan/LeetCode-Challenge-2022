@@ -12,23 +12,28 @@
 class Solution {
 public:
     int ans=0;
-    int solve(TreeNode* root, int par)
+    int solve(TreeNode* root)
     {
         if(!root)
             return 0;
         
-        int l = solve(root->left, root->val);
-        int r = solve(root->right, root->val);
+        int l = solve(root->left);
+        int r = solve(root->right);
         
-        ans = max(ans, l+r);
+        int ll=0,rr=0;
+        if(root->left && root->val == root->left->val)
+            ll += l + 1;
         
-        if(root->val == par)
-            return max(l,r) + 1;
-        return 0;
+        if(root->right && root->val == root->right->val)
+            rr += r + 1;
+        
+        ans = max(ans, ll+rr);
+        
+        return max(ll,rr);
     }
     
     int longestUnivaluePath(TreeNode* root) {
-        solve(root, INT_MIN);
+        solve(root);
         return ans;
     }
 };
