@@ -1,25 +1,30 @@
 class Solution {
 public:
     unordered_map<string, priority_queue<string, vector<string>, greater<string>>> graph;
-    vector<string> result;
-    void dfs(string vtex)
+    vector<string> ans;
+    
+    void DFS(string u)
     {
-        auto & edges = graph[vtex];
-        while (!edges.empty())
+        auto &edge = graph[u];
+        
+        while(!edge.empty())
         {
-            string to_vtex = edges.top();
-            edges.pop();
-            dfs(to_vtex);
+            string v = edge.top();
+            edge.pop();
+            DFS(v);
         }
-        result.push_back(vtex);
+        ans.push_back(u);
     }
+    
     vector<string> findItinerary(vector<vector<string>>& tickets) {
-        for (auto e : tickets)
-            graph[e[0]].push(e[1]);
+        for(auto t: tickets)
+        {
+            graph[t[0]].push(t[1]);
+        }
         
-        dfs("JFK");
-        
-        reverse(result.begin(), result.end());
-        return result;
+        DFS("JFK");
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
+    
 };
