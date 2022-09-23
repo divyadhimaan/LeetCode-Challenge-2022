@@ -17,7 +17,7 @@ public:
         
         m[root->val]++;
         
-        // If we got to a leaf - check if the path can be a polindrome
+        // If we got to a leaf - check if the path can be a palindrome
         if (!root->left && !root->right) {
             int odd = 0;
             for (auto a : m)
