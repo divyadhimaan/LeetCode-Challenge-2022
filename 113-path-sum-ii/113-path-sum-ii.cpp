@@ -17,16 +17,16 @@ public:
     {
         if(!root)
             return;
-
+        targetSum -= root->val;
         temp.push_back(root->val);
         
-        if((!root->left && !root->right) && targetSum == root->val)
+        if((!root->left && !root->right) && targetSum == 0)
         {
             ans.push_back(temp);
         }
         
-        solve(root->left, targetSum- root->val);
-        solve(root->right, targetSum- root->val);
+        solve(root->left, targetSum);
+        solve(root->right, targetSum);
         
         temp.pop_back();
         
