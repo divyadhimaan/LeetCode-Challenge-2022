@@ -1,21 +1,25 @@
-class TrieNode {
-public:
-    int score;
+
+class TrieNode
+{
+    public:
     TrieNode* child[26];
-    
+    // bool isEnd;
+    int value;
     
     TrieNode()
     {
-        score= 0;
+        value =0;
+        // isEnd = false;
         for(int i=0;i<26;i++)
+        {
             child[i] = NULL;
+        }
     }
 };
 
 class MapSum {
 public:
-    int res = 0;
-    TrieNode *root = new TrieNode();
+    TrieNode* root = new TrieNode();
     MapSum() {
         
     }
@@ -27,37 +31,39 @@ public:
         {
             int index = key[i] - 'a';
             if(curr->child[index] == NULL)
-            {
-                curr->child[index] = new TrieNode();
-            }
-            curr = curr->child[index];
+                curr->child[index] = new TrieNode;
+            curr=curr->child[index];
         }
-        curr->score = val;
+        curr->value = val;
+        // curr->isEnd = true;
+        
     }
-    
-    void calc(TrieNode* curr) {
-        res += curr->score;
-        for (int i = 0; i < 26; i++) {
-            if (curr->child[i]) {
-                calc(curr->child[i]);
-            }
+    int res =0;
+    void cal(TrieNode* curr)
+    {
+        res += curr->value;
+        for(int i=0;i<26;i++)
+        {
+            if(curr->child[i])
+                cal(curr->child[i]);
         }
+        
     }
     
     int sum(string prefix) {
-        res = 0;
+        res=0;
         TrieNode* curr = root;
         
         for(int i=0;i<prefix.length();i++)
         {
             int index = prefix[i] - 'a';
             if(curr->child[index] == NULL)
-            {
                 return 0;
-            }
-            curr = curr->child[index];
+            curr=curr->child[index];
         }
-        calc(curr);
+          
+        cal(curr);
+        
         return res;
     }
 };
