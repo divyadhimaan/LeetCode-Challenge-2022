@@ -7,13 +7,11 @@ public:
     }
     
     bool book(int start, int end) {
-        for(auto [s,e]: mp)
-        {
-            if(start < e && s < end)
-                return false;
-        }
+        auto next = mp.upper_bound(start);
+        if(next != mp.end() &&   (*next).second < end)
+            return false;
         
-        mp.insert({start, end});
+        mp.insert({end,start});
         return true;
     }
 };
