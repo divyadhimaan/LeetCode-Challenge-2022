@@ -12,25 +12,26 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        if(!root)
+        if(!root) 
             return 0;
-        int count = 0;
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        while(!q.empty())
-        {
-            TreeNode* curr = q.front();
-            q.pop();
-            count++;
-            
-            if(curr->left)
-                q.push(curr->left);
-            if(curr->right)
-                q.push(curr->right);
-            
+        int hl=0, hr=0;
+
+        TreeNode *l=root, *r=root;
+
+        while(l){
+            hl++;
+            l=l->left;
         }
-        return count;
+
+        while(r){
+            hr++;
+            r=r->right;
+        }
+
+        if(hl==hr) 
+            return pow(2,hl)-1;
+
+        return 1+countNodes(root->left)+countNodes(root->right);
         
     }
 };
